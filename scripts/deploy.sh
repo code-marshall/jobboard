@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Build and Deploy Script for Lifeline Project
+# Build and Deploy Script for Jobboard Project
 # This script creates a release branch, builds the project, and deploys it
 
 set -e  # Exit immediately if a command exits with a non-zero status
@@ -82,4 +82,4 @@ npm install
 
 echo "✅ Build and deploy completed successfully!"
 echo "📍 Release branch has been updated with clean build files in root"
-echo "🌐 Perfect for GitHub Pages or static hosting deployment" 
+echo "🌐 Perfect for GitHub Pages or static hosting deployment"
