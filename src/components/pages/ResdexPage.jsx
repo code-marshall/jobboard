@@ -26,6 +26,48 @@ const ResdexPage = () => {
     setFilteredCandidates(filtered);
   };
 
+  const handleDownloadCSV = () => {
+    const headers = [
+      'CC Username', 'College Score', 'Company Score', 'LinkedIn URL', 'Contest Rating',
+      'Contest Count', 'Resume Update Date', 'Email', 'Phone Number', 'Graduation Year',
+      'College Name', 'Percentage', 'Highest Degree', 'Tech Stacks/Skills', 'Companies Worked'
+    ];
+
+    const csvRows = [headers.join(',')];
+
+    filteredCandidates.forEach(candidate => {
+      const row = [
+        candidate.ccUsername || '',
+        candidate.collegeScore?.toFixed(2) || '',
+        candidate.companyScore?.toFixed(2) || '',
+        candidate.linkedinUrl || '',
+        candidate.contestRating || '',
+        candidate.contestCount || '',
+        candidate.resumeUpdateDate || '',
+        candidate.email || '',
+        candidate.phone || '',
+        candidate.graduationYear || '',
+        `"${candidate.collegeName || ''}"`,
+        candidate.percentage || '',
+        candidate.highestDegree || '',
+        `"${candidate.skills?.join(', ') || ''}"`,
+        `"${candidate.companies?.join(', ') || ''}"`
+      ];
+      csvRows.push(row.join(','));
+    });
+
+    const csvContent = csvRows.join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `resdex_candidates_${new Date().toISOString().split('T')[0]}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  };
+
   return (
     <div>
       <DashboardHeader />
@@ -33,8 +75,11 @@ const ResdexPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold">Resdex - Resume Database</h1>
-            <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold">
-              Contact for Full Access
+            <button
+              onClick={handleDownloadCSV}
+              className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-semibold"
+            >
+              Download CSV
             </button>
           </div>
 

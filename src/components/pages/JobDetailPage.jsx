@@ -10,6 +10,7 @@ const JobDetailPage = () => {
 
   const [filteredApplicants, setFilteredApplicants] = useState(jobApplicants);
   const [aiSearchQuery, setAiSearchQuery] = useState('');
+  const [resumeDownloadMessage, setResumeDownloadMessage] = useState('');
 
   const handleAiSearch = () => {
     if (!aiSearchQuery.trim()) {
@@ -29,6 +30,55 @@ const JobDetailPage = () => {
     );
 
     setFilteredApplicants(filtered);
+  };
+
+  const handleDownloadCSV = () => {
+    const headers = [
+      'CC Username', 'College Score', 'Company Score', 'LinkedIn URL', 'Contest Rating',
+      'Contest Count', 'Resume Update Date', 'Email', 'Phone Number', 'Graduation Year',
+      'College Name', 'Percentage', 'Highest Degree', 'Tech Stacks/Skills', 'Companies Worked'
+    ];
+
+    const csvRows = [headers.join(',')];
+
+    filteredApplicants.forEach(applicant => {
+      const row = [
+        applicant.ccUsername || '',
+        applicant.collegeScore?.toFixed(2) || '',
+        applicant.companyScore?.toFixed(2) || '',
+        applicant.linkedinUrl || '',
+        applicant.contestRating || '',
+        applicant.contestCount || '',
+        applicant.resumeUpdateDate || '',
+        applicant.email || '',
+        applicant.phone || '',
+        applicant.graduationYear || '',
+        `"${applicant.collegeName || ''}"`,
+        applicant.percentage || '',
+        applicant.highestDegree || '',
+        `"${applicant.skills?.join(', ') || ''}"`,
+        `"${applicant.companies?.join(', ') || ''}"`
+      ];
+      csvRows.push(row.join(','));
+    });
+
+    const csvContent = csvRows.join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `job_${job.id}_applicants_${new Date().toISOString().split('T')[0]}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  };
+
+  const handleDownloadAllResumes = () => {
+    setResumeDownloadMessage('Resume download job scheduled. A download link will be generated in some time.');
+    setTimeout(() => {
+      setResumeDownloadMessage('');
+    }, 5000);
   };
 
   if (!job) return <div>Job not found</div>;
@@ -101,7 +151,29 @@ const JobDetailPage = () => {
           </div>
 
           <div className="bg-white rounded-lg shadow-md p-8">
-            <h2 className="text-2xl font-bold mb-6">Applicants ({filteredApplicants.length})</h2>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold">Applicants ({filteredApplicants.length})</h2>
+              <div className="flex gap-3">
+                <button
+                  onClick={handleDownloadCSV}
+                  className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-semibold"
+                >
+                  Download CSV
+                </button>
+                <button
+                  onClick={handleDownloadAllResumes}
+                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold"
+                >
+                  Download All Resumes
+                </button>
+              </div>
+            </div>
+
+            {resumeDownloadMessage && (
+              <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-blue-700">
+                {resumeDownloadMessage}
+              </div>
+            )}
 
             <div className="flex gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
               <div className="flex-1">
