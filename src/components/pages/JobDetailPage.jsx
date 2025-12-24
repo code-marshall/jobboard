@@ -9,23 +9,27 @@ const JobDetailPage = () => {
   const jobApplicants = applicantsData.filter(a => a.jobId === parseInt(id));
 
   const [filteredApplicants, setFilteredApplicants] = useState(jobApplicants);
-  const [filters, setFilters] = useState({
-    status: 'all',
-    minScore: 0,
-    maxScore: 100
-  });
+  const [aiSearchQuery, setAiSearchQuery] = useState('');
 
-  useEffect(() => {
-    let filtered = jobApplicants;
-
-    if (filters.status !== 'all') {
-      filtered = filtered.filter(a => a.status === filters.status);
+  const handleAiSearch = () => {
+    if (!aiSearchQuery.trim()) {
+      setFilteredApplicants(jobApplicants);
+      return;
     }
 
-    filtered = filtered.filter(a => a.hybridScore >= filters.minScore && a.hybridScore <= filters.maxScore);
+    const query = aiSearchQuery.toLowerCase();
+    const filtered = jobApplicants.filter(applicant =>
+      applicant.ccUsername?.toLowerCase().includes(query) ||
+      applicant.email?.toLowerCase().includes(query) ||
+      applicant.phone?.toLowerCase().includes(query) ||
+      applicant.collegeName?.toLowerCase().includes(query) ||
+      applicant.highestDegree?.toLowerCase().includes(query) ||
+      applicant.skills?.some(skill => skill.toLowerCase().includes(query)) ||
+      applicant.companies?.some(company => company.toLowerCase().includes(query))
+    );
 
     setFilteredApplicants(filtered);
-  }, [filters]);
+  };
 
   if (!job) return <div>Job not found</div>;
 
@@ -99,42 +103,24 @@ const JobDetailPage = () => {
           <div className="bg-white rounded-lg shadow-md p-8">
             <h2 className="text-2xl font-bold mb-6">Applicants ({filteredApplicants.length})</h2>
 
-            <div className="grid md:grid-cols-3 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Filter by Status</label>
-                <select
-                  value={filters.status}
-                  onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-                  className="w-full px-3 py-2 border rounded-lg"
+            <div className="flex gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
+              <div className="flex-1">
+                <label className="block text-sm font-medium text-gray-700 mb-2">AI Search / Smart Search</label>
+                <textarea
+                  value={aiSearchQuery}
+                  onChange={(e) => setAiSearchQuery(e.target.value)}
+                  placeholder="Describe your requirements in plain text... (e.g., 'High contest rating candidates', 'IIT graduates', 'Candidates with machine learning skills')"
+                  className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 resize-none"
+                  rows="3"
+                />
+              </div>
+              <div className="flex items-end">
+                <button
+                  onClick={handleAiSearch}
+                  className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold h-fit"
                 >
-                  <option value="all">All Statuses</option>
-                  <option value="Shortlisted">Shortlisted</option>
-                  <option value="Under Review">Under Review</option>
-                  <option value="Rejected">Rejected</option>
-                  <option value="Hired">Hired</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Min Score</label>
-                <input
-                  type="number"
-                  value={filters.minScore}
-                  onChange={(e) => setFilters({ ...filters, minScore: parseInt(e.target.value) || 0 })}
-                  className="w-full px-3 py-2 border rounded-lg"
-                  min="0"
-                  max="100"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Max Score</label>
-                <input
-                  type="number"
-                  value={filters.maxScore}
-                  onChange={(e) => setFilters({ ...filters, maxScore: parseInt(e.target.value) || 100 })}
-                  className="w-full px-3 py-2 border rounded-lg"
-                  min="0"
-                  max="100"
-                />
+                  Search
+                </button>
               </div>
             </div>
 
@@ -142,37 +128,83 @@ const JobDetailPage = () => {
               <table className="w-full">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Name</th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Email</th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Hybrid Score</th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Application Date</th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Status</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">CC Username</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">College Score</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">Company Score</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">LinkedIn URL</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">Contest Rating</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">Contest Count</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">Resume Update Date</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">Email</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">Phone Number</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">Graduation Year</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">College Name</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">Percentage</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">Highest Degree</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">Tech Stacks/Skills</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">Companies Worked</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y">
                   {filteredApplicants.map(applicant => (
                     <tr key={applicant.id} className="hover:bg-gray-50">
-                      <td className="px-4 py-3 text-sm font-medium">{applicant.name}</td>
-                      <td className="px-4 py-3 text-sm text-gray-600">{applicant.email}</td>
-                      <td className="px-4 py-3">
-                        <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                          applicant.hybridScore >= 90 ? 'bg-green-100 text-green-800' :
-                          applicant.hybridScore >= 80 ? 'bg-blue-100 text-blue-800' :
+                      <td className="px-3 py-3 text-xs font-medium">{applicant.ccUsername}</td>
+                      <td className="px-3 py-3 text-xs">
+                        <span className={`px-2 py-1 rounded-full font-semibold ${
+                          applicant.collegeScore >= 0.8 ? 'bg-green-100 text-green-800' :
+                          applicant.collegeScore >= 0.6 ? 'bg-blue-100 text-blue-800' :
                           'bg-yellow-100 text-yellow-800'
                         }`}>
-                          {applicant.hybridScore}
+                          {applicant.collegeScore?.toFixed(2)}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-sm text-gray-600">{applicant.applicationDate}</td>
-                      <td className="px-4 py-3">
-                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                          applicant.status === 'Shortlisted' ? 'bg-blue-100 text-blue-800' :
-                          applicant.status === 'Hired' ? 'bg-green-100 text-green-800' :
-                          applicant.status === 'Rejected' ? 'bg-red-100 text-red-800' :
-                          'bg-gray-100 text-gray-800'
+                      <td className="px-3 py-3 text-xs">
+                        <span className={`px-2 py-1 rounded-full font-semibold ${
+                          applicant.companyScore >= 0.8 ? 'bg-green-100 text-green-800' :
+                          applicant.companyScore >= 0.6 ? 'bg-blue-100 text-blue-800' :
+                          'bg-yellow-100 text-yellow-800'
                         }`}>
-                          {applicant.status}
+                          {applicant.companyScore?.toFixed(2)}
                         </span>
+                      </td>
+                      <td className="px-3 py-3 text-xs">
+                        <a href={applicant.linkedinUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                          View
+                        </a>
+                      </td>
+                      <td className="px-3 py-3 text-xs font-medium">{applicant.contestRating}</td>
+                      <td className="px-3 py-3 text-xs">{applicant.contestCount}</td>
+                      <td className="px-3 py-3 text-xs text-gray-600">{applicant.resumeUpdateDate}</td>
+                      <td className="px-3 py-3 text-xs text-gray-600">{applicant.email}</td>
+                      <td className="px-3 py-3 text-xs text-gray-600">{applicant.phone}</td>
+                      <td className="px-3 py-3 text-xs">{applicant.graduationYear}</td>
+                      <td className="px-3 py-3 text-xs">{applicant.collegeName}</td>
+                      <td className="px-3 py-3 text-xs">{applicant.percentage}%</td>
+                      <td className="px-3 py-3 text-xs">{applicant.highestDegree}</td>
+                      <td className="px-3 py-3">
+                        <div className="flex flex-wrap gap-1 max-w-xs">
+                          {applicant.skills?.map((skill, index) => (
+                            <span key={index} className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </td>
+                      <td className="px-3 py-3 text-xs">
+                        <div className="max-w-xs">
+                          {applicant.companies?.join(', ')}
+                        </div>
+                      </td>
+                      <td className="px-3 py-3">
+                        <div className="flex gap-2">
+                          <button className="px-2 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition text-xs">
+                            View Profile
+                          </button>
+                          <button className="px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition text-xs">
+                            Download
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
