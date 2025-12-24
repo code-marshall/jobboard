@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PublicHeader from '../common/PublicHeader';
+import Footer from '../common/Footer';
 
 const HomePage = () => {
   // Offerings for bottom section
@@ -94,6 +95,8 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 };

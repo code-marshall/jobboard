@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PublicHeader from '../common/PublicHeader';
+import Footer from '../common/Footer';
 import { jobsData } from '../../data/sampleData';
 
 const PublicJobsPage = () => {
@@ -28,30 +29,58 @@ const PublicJobsPage = () => {
     <div>
       <PublicHeader />
       <div className="min-h-screen bg-gray-50">
-        <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
+        {/* Hero Section */}
+        <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl font-bold mb-4">Find Your Dream Job</h1>
-            <p className="text-xl">Browse {openJobs.length} open positions</p>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Job Vacancies</h1>
+            <p className="text-xl text-blue-100">Discover your next career opportunity</p>
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
           {!selectedJob ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-[30px]">
               {openJobs.map(job => (
-                <div key={job.id} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition cursor-pointer"
-                     onClick={() => setSelectedJob(job)}>
-                  <h3 className="text-xl font-bold mb-2">{job.title}</h3>
-                  <p className="text-gray-600 mb-2">Monocept</p>
-                  <p className="text-gray-600 mb-4">{job.location}</p>
-                  <div className="flex items-center gap-2 mb-4">
-                    <span className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">{job.type}</span>
-                    <span className="px-2 py-1 bg-green-50 text-green-700 rounded text-xs">{job.salary}</span>
+                <div
+                  key={job.id}
+                  className="group relative overflow-hidden rounded-md shadow-md hover:shadow-lg transition-shadow duration-300 bg-white border border-gray-200 cursor-pointer"
+                  onClick={() => setSelectedJob(job)}
+                >
+                  <div className="p-6">
+                    <a className="title h5 text-lg font-semibold hover:text-blue-600 cursor-pointer">
+                      {job.title}
+                    </a>
+                    <p className="text-slate-400 mt-2 flex items-center">
+                      <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 1024 1024" className="text-blue-600 me-1" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
+                        <path d="M686.7 638.6L544.1 535.5V288c0-4.4-3.6-8-8-8H488c-4.4 0-8 3.6-8 8v275.4c0 2.6 1.2 5 3.3 6.5l165.4 120.6c3.6 2.6 8.6 1.8 11.2-1.7l28.6-39c2.6-3.7 1.8-8.7-1.8-11.2z"></path>
+                      </svg>
+                      Posted {job.postedDate}
+                    </p>
+                    <div className="flex justify-between items-center mt-4">
+                      <span className="bg-blue-600/10 text-blue-600 text-xs font-bold px-2.5 py-0.5 rounded h-5">
+                        {job.type}
+                      </span>
+                      <p className="text-slate-400 flex items-center">
+                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" className="text-blue-600 me-1" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"></path>
+                          <path d="M12 11c-2 0-2-.63-2-1s.7-1 2-1 1.39.64 1.4 1h2A3 3 0 0 0 13 7.12V6h-2v1.09C9 7.42 8 8.71 8 10c0 1.12.52 3 4 3 2 0 2 .68 2 1s-.62 1-2 1c-1.84 0-2-.86-2-1H8c0 .92.66 2.55 3 2.92V18h2v-1.08c2-.34 3-1.63 3-2.92 0-1.12-.52-3-4-3z"></path>
+                        </svg>
+                        {job.salary}
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-sm text-gray-500">Posted {job.postedDate}</p>
-                  <button className="mt-4 w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold">
-                    View Details
-                  </button>
+                  <a className="flex items-center p-6 border-t border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+                    <div className="size-12 shadow-md rounded-md p-2 bg-white flex items-center justify-center">
+                      <div className="w-full h-full bg-gradient-to-br from-blue-500 to-blue-600 rounded flex items-center justify-center text-white font-bold text-sm">
+                        M
+                      </div>
+                    </div>
+                    <div className="ms-3">
+                      <h6 className="mb-0 font-semibold text-base">Monocept</h6>
+                      <span className="text-slate-400 text-sm">{job.location}</span>
+                    </div>
+                  </a>
                 </div>
               ))}
             </div>
@@ -170,6 +199,7 @@ const PublicJobsPage = () => {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
