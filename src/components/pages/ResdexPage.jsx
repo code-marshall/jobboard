@@ -30,7 +30,7 @@ const ResdexPage = () => {
     const headers = [
       'CC Username', 'College Score', 'Company Score', 'LinkedIn URL', 'Contest Rating',
       'Contest Count', 'Resume Update Date', 'Email', 'Phone Number', 'Graduation Year',
-      'College Name', 'Percentage', 'Highest Degree', 'Tech Stacks/Skills', 'Companies Worked'
+      'College Name', 'CGPA', 'Highest Degree', 'Tech Stacks/Skills', 'Companies Worked'
     ];
 
     const csvRows = [headers.join(',')];
@@ -125,7 +125,7 @@ const ResdexPage = () => {
                     <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">Phone Number</th>
                     <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">Graduation Year</th>
                     <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">College Name</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">Percentage</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">CGPA</th>
                     <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">Highest Degree</th>
                     <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">Tech Stacks/Skills</th>
                     <th className="px-3 py-3 text-left text-xs font-semibold text-gray-700">Companies Worked</th>
@@ -166,7 +166,7 @@ const ResdexPage = () => {
                       <td className="px-3 py-3 text-xs text-gray-600">{candidate.phone}</td>
                       <td className="px-3 py-3 text-xs">{candidate.graduationYear}</td>
                       <td className="px-3 py-3 text-xs">{candidate.collegeName}</td>
-                      <td className="px-3 py-3 text-xs">{candidate.percentage}%</td>
+                      <td className="px-3 py-3 text-xs">{candidate.percentage}</td>
                       <td className="px-3 py-3 text-xs">{candidate.highestDegree}</td>
                       <td className="px-3 py-3">
                         <div className="flex flex-wrap gap-1 max-w-xs">
