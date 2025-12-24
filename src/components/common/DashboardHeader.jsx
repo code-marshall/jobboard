@@ -17,7 +17,7 @@ const DashboardHeader = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-8">
-            <Link to="/dashboard" className="text-2xl font-bold text-blue-600">{user?.company}</Link>
+            <Link to="/dashboard" className="text-2xl font-bold text-blue-600">jobboard</Link>
             <nav className="flex gap-6">
               <Link to="/dashboard" className="text-gray-700 hover:text-blue-600 transition">Dashboard</Link>
               <Link to="/dashboard/jobs" className="text-gray-700 hover:text-blue-600 transition">Job Posts</Link>
