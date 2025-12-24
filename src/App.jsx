@@ -22,7 +22,7 @@ function App() {
           <Route path="/dashboard" element={<ProtectedRoute><DashboardHome /></ProtectedRoute>} />
           <Route path="/dashboard/jobs" element={<ProtectedRoute><JobPostsListing /></ProtectedRoute>} />
           <Route path="/dashboard/jobs/:id" element={<ProtectedRoute><JobDetailPage /></ProtectedRoute>} />
-          <Route path="/dashboard/resdex" element={<ProtectedRoute><ResdexPage /></ProtectedRoute>} />
+          <Route path="/dashboard/talent-cloud" element={<ProtectedRoute><ResdexPage /></ProtectedRoute>} />
         </Routes>
       </Router>
     </AuthProvider>

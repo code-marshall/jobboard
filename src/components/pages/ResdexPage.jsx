@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import DashboardHeader from '../common/DashboardHeader';
-import { resdexData } from '../../data/sampleData';
+import { talentCloudData } from '../../data/sampleData';
 
 const ResdexPage = () => {
   const [aiSearchQuery, setAiSearchQuery] = useState('');
-  const [filteredCandidates, setFilteredCandidates] = useState(resdexData);
+  const [filteredCandidates, setFilteredCandidates] = useState(talentCloudData);
 
   const handleAiSearch = () => {
     if (!aiSearchQuery.trim()) {
-      setFilteredCandidates(resdexData);
+      setFilteredCandidates(talentCloudData);
       return;
     }
 
     const query = aiSearchQuery.toLowerCase();
-    const filtered = resdexData.filter(candidate =>
+    const filtered = talentCloudData.filter(candidate =>
       candidate.ccUsername?.toLowerCase().includes(query) ||
       candidate.email?.toLowerCase().includes(query) ||
       candidate.phone?.toLowerCase().includes(query) ||
@@ -61,7 +61,7 @@ const ResdexPage = () => {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `resdex_candidates_${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `talentcloud_candidates_${new Date().toISOString().split('T')[0]}.csv`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -74,7 +74,7 @@ const ResdexPage = () => {
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-bold">Resdex - Resume Database</h1>
+            <h1 className="text-3xl font-bold">TalentCloud - Resume Database</h1>
             <button
               onClick={handleDownloadCSV}
               className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-semibold"

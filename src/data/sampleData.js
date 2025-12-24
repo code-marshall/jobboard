@@ -147,7 +147,7 @@ export const applicantsData = [
   ...generateApplicants(4, 156)
 ];
 
-export const resdexData = [
+export const talentCloudData = [
   {
     "id": 1,
     "ccUsername": "saiteja3009",

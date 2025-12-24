@@ -21,7 +21,7 @@ const DashboardHeader = () => {
             <nav className="flex gap-6">
               <Link to="/dashboard" className="text-gray-700 hover:text-blue-600 transition">Dashboard</Link>
               <Link to="/dashboard/jobs" className="text-gray-700 hover:text-blue-600 transition">Job Posts</Link>
-              <Link to="/dashboard/resdex" className="text-gray-700 hover:text-blue-600 transition">Resdex</Link>
+              <Link to="/dashboard/talent-cloud" className="text-gray-700 hover:text-blue-600 transition">TalentCloud</Link>
             </nav>
           </div>
           <div className="relative">

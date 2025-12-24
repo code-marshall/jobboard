@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import DashboardHeader from '../common/DashboardHeader';
-import { jobsData, resdexData } from '../../data/sampleData';
+import { jobsData, talentCloudData } from '../../data/sampleData';
 
 const DashboardHome = () => {
   const openJobs = jobsData.filter(job => job.status === 'OPEN');
@@ -46,8 +46,8 @@ const DashboardHome = () => {
             <div className="bg-white rounded-lg shadow-md p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-600 text-sm font-medium">Resdex Candidates</p>
-                  <p className="text-4xl font-bold text-purple-600 mt-2">{resdexData.length}</p>
+                  <p className="text-gray-600 text-sm font-medium">TalentCloud Candidates</p>
+                  <p className="text-4xl font-bold text-purple-600 mt-2">{talentCloudData.length}</p>
                 </div>
                 <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
                   <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

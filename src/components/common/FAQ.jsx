@@ -18,7 +18,7 @@ const FAQ = () => {
     },
     {
       question: 'Can I access the resume database?',
-      answer: 'Yes! Premium members get full access to our Resdex database with thousands of qualified candidates. You can search, filter, and download resumes.'
+      answer: 'Yes! Premium members get full access to our TalentCloud database with thousands of qualified candidates. You can search, filter, and download resumes.'
     },
     {
       question: 'How do I contact support?',
